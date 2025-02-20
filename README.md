@@ -111,9 +111,10 @@ https://github.com/DarkaOnLine/L5-Swagger
 php artisan l5-swagger:generate;
 ```
 
+navigate to http://127.0.0.1:8000/api/documentation#/ to see swagger docs after generating and calling `php artisan serve`
+
 ### dispatch email command
 
 ```
 php artisan dispatch:welcome-email {userId}
 ```
-# weatherapi

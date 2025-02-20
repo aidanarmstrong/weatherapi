@@ -78,6 +78,10 @@ class WeatherController extends Controller
         }
     }
 
+    /**
+     * 
+     * Public method to retrieve weather data safely within controller
+     */
     public function updateWeatherData(string $location) {
         return $this->fetchWeatherData($location);
     }
@@ -91,7 +95,7 @@ class WeatherController extends Controller
      */
     protected function fetchWeatherData(string $location): array {
 
-        $apiKey = env('WEATHER_API_KEY');
+        $apiKey = config('services.weather.api_key') ;
 
         if (empty($apiKey)) {
             throw new \Exception('API Key is missing');
@@ -121,7 +125,6 @@ class WeatherController extends Controller
             Log::error('Weather API error', ['location' => $location, 'error' => $errorResponse]);
             throw new \Exception('Unable to fetch weather data. Please try again later.');
         }
-
 
         // return the data 
         return $response->json();

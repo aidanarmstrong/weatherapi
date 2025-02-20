@@ -125,6 +125,13 @@ class UserController extends Controller {
             return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
 
         } catch (\Exception $e) {
+
+            if ($e->getCode() == 23000) {
+                return response()->json([
+                    'error' => 'A user with this email already exists.'
+                ], 409); 
+            }
+
             return response()->json(['error' => 'An error occurred during registration. Please try again.'], 500);
         }
     }

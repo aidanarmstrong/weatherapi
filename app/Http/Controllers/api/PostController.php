@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Http\Requests\StorePostRequest;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Annotations as OA;
 
@@ -80,7 +80,7 @@ class PostController extends Controller
     *     )
     * )
     */
-    public function show($id) {
+    public function show(int $id): \Illuminate\Http\JsonResponse {
         $post = Post::find($id);
 
         if (!$post) {
@@ -120,13 +120,10 @@ class PostController extends Controller
     *     )
     * )
     */
-    public function store(Request $request) {
+    public function store(StorePostRequest $request) {
         
         try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
-            ]);
+            $validated = $request->validated();
 
             
             $post = Post::create([
@@ -193,7 +190,7 @@ class PostController extends Controller
     *     )
     * )
     */
-    public function update(Request $request, $id) {
+    public function update(StorePostRequest $request, int $id): \Illuminate\Http\JsonResponse {
 
         try {
             $post = Post::find($id);
@@ -204,10 +201,7 @@ class PostController extends Controller
 
             $this->authorize('update', $post);
 
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
-            ]);
+            $validated = $request->validated();
 
             $post->update($validated);
 
